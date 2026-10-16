@@ -1,5 +1,12 @@
 import { createOptimizedPicture } from '../../scripts/aem.js';
 
+function normalizeText(text) {
+  return text
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLocaleLowerCase();
+}
+
 export default async function decorate(block) {
   let markup;
   try {
@@ -26,21 +33,27 @@ export default async function decorate(block) {
   const resetButtons = [...markup.querySelectorAll('.vehicle-catalog-reset')];
   const bodyTypes = new Map();
   const cards = [...block.children].map((row) => {
-    const bodyCell = row.children[2];
+    const rowCells = [...row.children];
+    const bodyCell = rowCells.length > 2 ? rowCells[rowCells.length - 1] : null;
     const bodyLabel = (bodyCell?.textContent || '').trim();
-    const bodyType = bodyLabel.toLocaleLowerCase();
+    const bodyType = normalizeText(bodyLabel);
     if (bodyType && !bodyTypes.has(bodyType)) bodyTypes.set(bodyType, bodyLabel);
     const card = template.content.firstElementChild.cloneNode(true);
     while (row.firstElementChild) card.append(row.firstElementChild);
     [...card.children].forEach((cell) => {
-      cell.className = cell.children.length === 1 && cell.querySelector('picture')
+      if (!cell.textContent.trim() && !cell.querySelector('picture, img')) {
+        cell.remove();
+        return;
+      }
+      cell.className = cell.children.length === 1 && cell.querySelector('picture, img')
         ? 'vehicle-catalog-card-image' : 'vehicle-catalog-card-body';
     });
     if (bodyCell) bodyCell.className = 'vehicle-catalog-body-type';
     card.querySelectorAll('picture > img').forEach((image) => {
       image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '750' }]));
     });
-    const body = card.querySelector('.vehicle-catalog-card-body');
+    const body = [...card.querySelectorAll('.vehicle-catalog-card-body')]
+      .find((cell) => cell !== bodyCell);
     const name = body?.querySelector('h2, h3, h4, strong') || body;
     const modelName = (name?.textContent || '').trim().toLocaleLowerCase();
     if (name && name !== body) {
@@ -58,19 +71,27 @@ export default async function decorate(block) {
         name.classList.add('vehicle-catalog-name');
       }
     }
+    const searchText = normalizeText(card.textContent || '');
     list.append(card);
-    return { card, name: modelName, bodyType };
+    return {
+      card, name: modelName, bodyType, searchText,
+    };
   });
 
   [...bodyTypes].sort((first, second) => first[1].localeCompare(second[1]))
     .forEach(([value, label]) => bodyFilter.add(new Option(label, value)));
   bodyFilter.disabled = bodyTypes.size === 0;
+  const initialBodyFilter = normalizeText(new URLSearchParams(window.location.search).get('body') || '')
+    .replace(/-/g, ' ');
+  if (initialBodyFilter && bodyTypes.has(initialBodyFilter)) bodyFilter.value = initialBodyFilter;
 
   const filter = () => {
-    const query = input.value.trim().toLocaleLowerCase();
+    const query = normalizeText(input.value.trim());
     let count = 0;
-    cards.forEach(({ card, name, bodyType }) => {
-      const matches = name.includes(query)
+    cards.forEach(({
+      card, name, bodyType, searchText,
+    }) => {
+      const matches = (name.includes(query) || searchText.includes(query))
         && (!bodyFilter.value || bodyType === bodyFilter.value);
       card.hidden = !matches;
       if (matches) count += 1;

@@ -1,10 +1,12 @@
 /* header and nav layout */
 header .nav-wrapper {
-  background-color: var(--background-color);
+  background-color: rgb(255 255 255 / 92%);
   width: 100%;
   z-index: 2;
   position: fixed;
   border-bottom: 1px solid var(--skoda-line, #dadada);
+  box-shadow: 0 10px 34px rgb(23 59 50 / 8%);
+  backdrop-filter: blur(16px);
 }
 
 header nav {
@@ -147,6 +149,25 @@ header .nav-brand {
   white-space: nowrap;
 }
 
+header .nav-brand a:any-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+header .nav-brand a::before {
+  content: '';
+  width: 30px;
+  aspect-ratio: 1;
+  border: 1px solid rgb(23 59 50 / 34%);
+  border-radius: 6px;
+  background:
+    linear-gradient(135deg, var(--skoda-accent, #d5f2ba), rgb(213 242 186 / 18%)),
+    var(--skoda-ink, #173b32);
+  transform: skewX(-12deg);
+}
+
 header nav .nav-brand img {
   width: 128px;
   height: auto;
@@ -176,12 +197,26 @@ header nav .nav-sections ul > li {
   font-weight: 500;
 }
 
+header nav .nav-sections a:any-link,
+header nav .nav-sections .nav-drop > button {
+  border-radius: 999px;
+  padding: 9px 12px;
+  text-decoration: none;
+  transition: background-color 160ms ease, color 160ms ease;
+}
+
 header nav .nav-sections .nav-drop > button {
   all: unset;
   display: inline-block;
   position: relative;
   padding-right: 16px;
   cursor: pointer;
+}
+
+header nav .nav-sections a:hover,
+header nav .nav-sections .nav-drop > button:hover {
+  background: var(--skoda-surface, #f2f6f4);
+  color: var(--skoda-ink, #173b32);
 }
 
 header nav .nav-sections .nav-drop > button::after {
@@ -274,4 +309,25 @@ header nav .nav-sections .nav-drop > button[aria-expanded='false'] + ul {
 /* tools */
 header nav .nav-tools {
   grid-area: tools;
+}
+
+header nav .nav-tools .nav-cta {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 16px;
+  border: 1px solid var(--skoda-ink, #173b32);
+  border-radius: 999px;
+  background: var(--skoda-ink, #173b32);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+header nav .nav-tools .nav-cta:hover,
+header nav .nav-tools .nav-cta:focus-visible {
+  border-color: var(--skoda-accent, #d5f2ba);
+  background: var(--skoda-accent, #d5f2ba);
+  color: var(--skoda-ink, #173b32);
 }

@@ -4,6 +4,25 @@ import { loadFragment } from '../fragment/fragment.js';
 // media query match that indicates mobile/tablet width
 const isDesktop = window.matchMedia('(min-width: 900px)');
 
+function createNavSections() {
+  const wrapper = document.createElement('div');
+  wrapper.className = 'default-content-wrapper';
+  wrapper.innerHTML = `<ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/vehicles">Vehicles</a></li>
+    <li><a href="/vehicles?body=suv">SUVs</a></li>
+    <li><a href="/vehicles?body=electric-suv">Electric</a></li>
+  </ul>`;
+  return wrapper;
+}
+
+function createNavTools() {
+  const wrapper = document.createElement('div');
+  wrapper.className = 'default-content-wrapper';
+  wrapper.innerHTML = '<p><a class="nav-cta" href="/vehicles">Explore range</a></p>';
+  return wrapper;
+}
+
 /**
  * Closes the open nav dropdown (desktop) or the nav menu (mobile) on Escape
  * @param {KeyboardEvent} e keydown event
@@ -124,6 +143,10 @@ export default async function decorate(block) {
 
   const navSections = nav.querySelector('.nav-sections');
   if (navSections) {
+    const sectionText = navSections.textContent;
+    if (/Example Content|Getting Started|Documentation/i.test(sectionText)) {
+      navSections.replaceChildren(createNavSections());
+    }
     navSections.querySelectorAll(':scope .default-content-wrapper > ul > li').forEach((navSection) => {
       const subList = navSection.querySelector(':scope > ul');
       if (!subList) return;
@@ -145,6 +168,11 @@ export default async function decorate(block) {
         button.setAttribute('aria-expanded', !expanded);
       });
     });
+  }
+
+  const navTools = nav.querySelector('.nav-tools');
+  if (navTools && (/icon-search|search/i.test(navTools.innerHTML) || !navTools.textContent.trim())) {
+    navTools.replaceChildren(createNavTools());
   }
 
   // hamburger for mobile

@@ -178,7 +178,7 @@ function decorateHomePage(main) {
 
     ctas = document.createElement('p');
     ctas.className = 'button-wrapper';
-    ctas.innerHTML = '<a class="button primary" href="/vehicle-catalog">Browse vehicles</a><a class="button secondary" href="#main">Learn more</a>';
+    ctas.innerHTML = '<a class="button primary" href="/vehicles">Browse vehicles</a><a class="button secondary" href="#main">Learn more</a>';
     intro.after(ctas);
     main.querySelectorAll('.columns picture, .cards picture').forEach((picture) => picture.remove());
   }
@@ -226,9 +226,27 @@ function decorateHomePage(main) {
   main.querySelectorAll('a[href="/"]').forEach((link) => {
     if (['Live', 'Preview'].includes(link.textContent.trim())) {
       link.textContent = link.textContent.trim() === 'Live' ? 'View catalog' : 'Compare options';
-      link.href = '/vehicle-catalog';
+      link.href = '/vehicles';
     }
   });
+}
+
+/**
+ * Decorates the authored vehicle catalog page.
+ * @param {HTMLElement} main The main container element
+ */
+function decorateVehicleCatalogPage(main) {
+  if (['/vehicle-catalog', '/vehicle-catalog.html'].includes(window.location.pathname)) {
+    window.location.replace(`/vehicles${window.location.search}${window.location.hash}`);
+    return;
+  }
+  if (!['/vehicles', '/vehicles.html'].includes(window.location.pathname)) return;
+  document.body.classList.add('vehicle-catalog-page');
+
+  const heading = main.querySelector('h1');
+  heading?.classList.add('vehicle-catalog-page-title');
+  const intro = heading?.nextElementSibling;
+  if (intro?.tagName === 'P') intro.classList.add('vehicle-catalog-page-intro');
 }
 
 /**
@@ -243,6 +261,7 @@ export function decorateMain(main) {
   decorateBlocks(main);
   decorateButtons(main);
   decorateHomePage(main);
+  decorateVehicleCatalogPage(main);
 }
 
 /**

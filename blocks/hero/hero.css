@@ -87,18 +87,19 @@ body.home-page .hero.block .home-hero-actions {
 
 body.home-page .hero.home-hero h1,
 body.home-page .hero.block h1 {
-  margin-bottom: 20px;
+  margin-bottom: 4rem;
   color: #fff;
   font-size: clamp(46px, 6.6vw, 78px);
   line-height: 0.95;
+  font-family: serif;
 }
 
 body.home-page .hero.home-hero .home-hero-copy,
 body.home-page .hero.block .home-hero-copy {
   margin-top: 0;
-  margin-bottom: 28px;
+  margin-bottom: 2rem;
   color: rgb(255 255 255 / 86%);
-  font-size: clamp(19px, 2.4vw, 26px);
+  font-size: 20px;
   line-height: 1.35;
 }
 
@@ -127,6 +128,15 @@ body.home-page .hero.block .button.primary {
 body.home-page .hero.home-hero .button.secondary,
 body.home-page .hero.block .button.secondary {
   border-color: rgb(255 255 255 / 72%);
+  color: #fff;
+}
+
+body.home-page .hero.home-hero .button.secondary:hover,
+body.home-page .hero.home-hero .button.secondary:focus-visible,
+body.home-page .hero.block .button.secondary:hover,
+body.home-page .hero.block .button.secondary:focus-visible {
+  border-color: red;
+  background: rgb(255 255 255 / 14%);
   color: #fff;
 }
 
