@@ -114,6 +114,13 @@ export default async function decorate(block) {
     brandLink.className = '';
     brandLink.closest('.button-container').className = '';
   }
+  const brandText = navBrand.textContent.trim();
+  if (brandText === 'Boilerplate') {
+    const brandAnchor = navBrand.querySelector('a');
+    const target = brandAnchor || navBrand;
+    target.textContent = 'Skoda DriveMatch';
+    if (brandAnchor) brandAnchor.setAttribute('aria-label', 'Skoda DriveMatch home');
+  }
 
   const navSections = nav.querySelector('.nav-sections');
   if (navSections) {

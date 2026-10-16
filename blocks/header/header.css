@@ -4,6 +4,7 @@ header .nav-wrapper {
   width: 100%;
   z-index: 2;
   position: fixed;
+  border-bottom: 1px solid var(--skoda-line, #dadada);
 }
 
 header nav {
@@ -19,6 +20,7 @@ header nav {
   height: var(--nav-height);
   padding: 0 24px;
   font-family: var(--body-font-family);
+  color: var(--skoda-ink, var(--text-color));
 }
 
 header nav[aria-expanded='true'] {
@@ -141,6 +143,8 @@ header .nav-brand {
   font-size: var(--heading-font-size-s);
   font-weight: 700;
   line-height: 1;
+  letter-spacing: 0;
+  white-space: nowrap;
 }
 
 header nav .nav-brand img {

@@ -18,6 +18,11 @@
   --text-color: #131313;
   --link-color: #3b63fb;
   --link-hover-color: #1d3ecf;
+  --skoda-ink: #173b32;
+  --skoda-muted: #52645e;
+  --skoda-line: #d5dfdb;
+  --skoda-surface: #f2f6f4;
+  --skoda-accent: #d5f2ba;
 
   /* fonts */
   --body-font-family: roboto, roboto-fallback, sans-serif;
@@ -82,6 +87,11 @@ body {
 
 body.appear {
   display: block;
+}
+
+body.home-page {
+  background: linear-gradient(180deg, #fff 0, var(--skoda-surface) 58%, #fff 100%);
+  color: var(--skoda-ink);
 }
 
 header {
@@ -199,8 +209,8 @@ button.button:disabled {
 
 a.button.primary,
 button.button.primary {
-  border-color: var(--text-color);
-  background-color: var(--text-color);
+  border-color: var(--skoda-ink, var(--text-color));
+  background-color: var(--skoda-ink, var(--text-color));
   color: var(--background-color);
 }
 
@@ -226,9 +236,9 @@ button.button.primary:disabled:focus-visible {
 
 a.button.secondary,
 button.button.secondary {
-  border-color: var(--text-color);
+  border-color: var(--skoda-ink, var(--text-color));
   background-color: transparent;
-  color: var(--text-color);
+  color: var(--skoda-ink, var(--text-color));
 }
 
 a.button.secondary:hover,
@@ -310,9 +320,41 @@ main > .section:first-of-type {
   margin-top: 0;
 }
 
+body.home-page main > div {
+  margin: 0;
+}
+
+body.home-page main > .section:not(:first-of-type) {
+  margin: 0;
+  padding: 56px 0;
+}
+
+body.home-page main > .section:nth-of-type(even) {
+  background: var(--skoda-surface);
+}
+
+body.home-page main > .section h2 {
+  max-width: 760px;
+  margin-bottom: 16px;
+  color: var(--skoda-ink);
+  font-size: clamp(34px, 5vw, 56px);
+  line-height: 1;
+}
+
+body.home-page main > .section h2 + p {
+  max-width: 760px;
+  color: var(--skoda-muted);
+  font-size: 20px;
+  line-height: 1.5;
+}
+
 @media (width >= 900px) {
   main > .section > div {
     padding: 0 32px;
+  }
+
+  body.home-page main > .section:not(:first-of-type) {
+    padding: 80px 0;
   }
 }
 
@@ -322,7 +364,4 @@ main .section.highlight {
   background-color: var(--light-color);
   margin: 0;
   padding: 40px 0;
-}
-body {
-  background-color: lightyellow;
 }

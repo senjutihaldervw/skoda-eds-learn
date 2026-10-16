@@ -1,0 +1,22 @@
+<div class="vehicle-catalog-search">
+  <label>
+    Search vehicles
+    <input type="search" placeholder="Vehicle name">
+  </label>
+  <label class="vehicle-catalog-body-filter">
+    Body type
+    <select disabled>
+      <option value="">All body types</option>
+    </select>
+  </label>
+  <button class="vehicle-catalog-reset" type="button" disabled>Clear filters</button>
+  <p class="vehicle-catalog-result-count" role="status" aria-atomic="true"></p>
+</div>
+<ul class="vehicle-catalog-list"></ul>
+<div class="vehicle-catalog-empty" hidden>
+  <h2>No matching vehicles</h2>
+  <button class="vehicle-catalog-reset" type="button">Clear filters</button>
+</div>
+<template class="vehicle-catalog-card">
+  <li></li>
+</template>

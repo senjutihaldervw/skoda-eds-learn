@@ -12,16 +12,59 @@
   background-color: var(--background-color);
 }
 
+body.home-page .cards > ul > li {
+  position: relative;
+  border-color: var(--skoda-line);
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+  color: var(--skoda-ink);
+  box-shadow: 0 16px 40px rgb(23 59 50 / 8%);
+}
+
+body.home-page .cards > ul > li::before {
+  content: '';
+  display: block;
+  width: 42px;
+  height: 4px;
+  margin: 24px 20px 0;
+  border-radius: 999px;
+  background: var(--skoda-accent);
+}
+
 .cards .cards-card-body {
   margin: 16px;
 }
 
+body.home-page .cards .cards-card-body {
+  margin: 0;
+  padding: 18px 20px 22px;
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+body.home-page .cards .cards-card-body strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 22px;
+  line-height: 1.2;
+}
+
 .cards .cards-card-image {
   line-height: 0;
+  background: var(--skoda-surface);
+}
+
+body.home-page .cards .cards-card-image:empty {
+  display: none;
 }
 
 .cards > ul > li img {
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
+}
+
+body.home-page .cards > ul > li img {
+  aspect-ratio: 16 / 10;
 }
