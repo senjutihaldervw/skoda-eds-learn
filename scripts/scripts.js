@@ -146,11 +146,11 @@ function decorateButtons(main) {
 }
 
 /**
- * Replaces the stock boilerplate home signals until the authored homepage is updated.
+ * Decorates the homepage and keeps a fallback for legacy boilerplate content.
  * @param {HTMLElement} main The main container element
  */
 function decorateHomePage(main) {
-  if (window.location.pathname !== '/') return;
+  if (!['/', '/index', '/index.html'].includes(window.location.pathname)) return;
   document.body.classList.add('home-page');
   if (document.title === 'Home | AEM Boilerplate') document.title = 'Home | Skoda DriveMatch';
 
@@ -158,25 +158,40 @@ function decorateHomePage(main) {
   if (!heroHeading) return;
 
   const stockHeading = /cong+r+ats|welcome to .*eds|welcome to aem boilerplate|boilerplate/i.test(heroHeading.textContent);
-  if (!stockHeading) return;
-
-  heroHeading.textContent = 'Explore Skoda models with confidence';
   const hero = heroHeading.closest('.hero');
   hero.classList.add('home-hero');
-  hero.querySelectorAll('p').forEach((paragraph) => {
-    if (!paragraph.querySelector('img, picture')) paragraph.remove();
-  });
 
-  const intro = document.createElement('p');
-  intro.className = 'home-hero-copy';
-  intro.textContent = 'Compare body styles, scan the latest range, and move from curiosity to shortlist without the boilerplate noise.';
-  heroHeading.after(intro);
+  let intro = [...hero.querySelectorAll('p')]
+    .find((paragraph) => !paragraph.querySelector('img, picture') && !paragraph.classList.contains('button-wrapper'));
+  let ctas = hero.querySelector('p.button-wrapper') || [...hero.querySelectorAll('p')]
+    .find((paragraph) => paragraph.querySelector('a[href]'));
 
-  const ctas = document.createElement('p');
-  ctas.className = 'button-wrapper home-hero-actions';
-  ctas.innerHTML = '<a class="button primary" href="/vehicle-catalog">Browse vehicles</a><a class="button secondary" href="#main">Learn more</a>';
-  intro.after(ctas);
-  main.querySelectorAll('.columns picture, .cards picture').forEach((picture) => picture.remove());
+  if (stockHeading) {
+    heroHeading.textContent = 'Explore Skoda models with confidence';
+    hero.querySelectorAll('p').forEach((paragraph) => {
+      if (!paragraph.querySelector('img, picture')) paragraph.remove();
+    });
+
+    intro = document.createElement('p');
+    intro.textContent = 'Compare body styles, scan the latest range, and move from curiosity to shortlist without the boilerplate noise.';
+    heroHeading.after(intro);
+
+    ctas = document.createElement('p');
+    ctas.className = 'button-wrapper';
+    ctas.innerHTML = '<a class="button primary" href="/vehicle-catalog">Browse vehicles</a><a class="button secondary" href="#main">Learn more</a>';
+    intro.after(ctas);
+    main.querySelectorAll('.columns picture, .cards picture').forEach((picture) => picture.remove());
+  }
+
+  if (intro) intro.classList.add('home-hero-copy');
+  if (ctas) {
+    ctas.classList.add('button-wrapper', 'home-hero-actions');
+    ctas.querySelectorAll('a[href]').forEach((link, index) => {
+      link.classList.add('button', index === 0 ? 'primary' : 'secondary');
+    });
+  }
+
+  if (!stockHeading) return;
 
   const copyUpdates = new Map([
     ['This is another headline here for more content', 'A clearer way to shortlist'],

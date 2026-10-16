@@ -20,12 +20,24 @@
 }
 
 body.home-page .columns > div {
+  position: relative;
   gap: 24px;
   padding: 24px;
   border: 1px solid var(--skoda-line);
   border-radius: 8px;
-  background: #fff;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, #fff 0%, #fff 62%, rgb(213 242 186 / 36%) 100%);
   color: var(--skoda-ink);
+  box-shadow: 0 22px 56px rgb(23 59 50 / 10%);
+}
+
+body.home-page .columns > div::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 6px;
+  background: var(--skoda-accent);
 }
 
 body.home-page .columns > div > div:empty {
@@ -41,10 +53,35 @@ body.home-page .columns ul {
   font-size: 18px;
 }
 
+body.home-page .columns p:first-child {
+  margin-top: 0;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
 body.home-page .columns ul {
   display: grid;
-  gap: 8px;
-  padding-left: 22px;
+  gap: 10px;
+  padding-left: 0;
+  list-style: none;
+}
+
+body.home-page .columns li {
+  position: relative;
+  padding-left: 28px;
+}
+
+body.home-page .columns li::before {
+  content: '';
+  position: absolute;
+  top: 0.65em;
+  left: 0;
+  width: 14px;
+  height: 8px;
+  border: solid var(--skoda-ink);
+  border-width: 0 0 2px 2px;
+  transform: rotate(-45deg);
 }
 
 body.home-page .columns .button {
@@ -69,6 +106,6 @@ body.home-page .columns img {
 
   body.home-page .columns > div {
     gap: 40px;
-    padding: 32px;
+    padding: 40px;
   }
 }

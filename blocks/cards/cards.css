@@ -12,24 +12,50 @@
   background-color: var(--background-color);
 }
 
+body.home-page .cards > ul {
+  counter-reset: home-card;
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+  gap: 18px;
+}
+
+@media (width >= 900px) {
+  body.home-page .cards > ul {
+    gap: 24px;
+  }
+}
+
 body.home-page .cards > ul > li {
   position: relative;
+  counter-increment: home-card;
   border-color: var(--skoda-line);
   border-radius: 8px;
   overflow: hidden;
-  background: #fff;
+  background:
+    linear-gradient(180deg, #fff 0%, #fff 72%, rgb(242 246 244 / 82%) 100%);
   color: var(--skoda-ink);
   box-shadow: 0 16px 40px rgb(23 59 50 / 8%);
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+body.home-page .cards > ul > li:hover {
+  transform: translateY(-4px);
+  border-color: rgb(23 59 50 / 32%);
+  box-shadow: 0 24px 56px rgb(23 59 50 / 14%);
 }
 
 body.home-page .cards > ul > li::before {
-  content: '';
+  content: counter(home-card, decimal-leading-zero);
   display: block;
-  width: 42px;
-  height: 4px;
+  width: max-content;
+  min-width: 42px;
   margin: 24px 20px 0;
+  padding: 3px 9px;
   border-radius: 999px;
   background: var(--skoda-accent);
+  color: var(--skoda-ink);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
 .cards .cards-card-body {
@@ -38,16 +64,20 @@ body.home-page .cards > ul > li::before {
 
 body.home-page .cards .cards-card-body {
   margin: 0;
-  padding: 18px 20px 22px;
+  padding: 18px 20px 24px;
   font-size: 16px;
   line-height: 1.55;
 }
 
 body.home-page .cards .cards-card-body strong {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   font-size: 22px;
   line-height: 1.2;
+}
+
+body.home-page .cards .cards-card-body p:last-child {
+  color: var(--skoda-muted);
 }
 
 .cards .cards-card-image {
